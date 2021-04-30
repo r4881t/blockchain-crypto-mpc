@@ -43,7 +43,7 @@ typedef struct tag_MPCCryptoKey     MPCCryptoShare;
 typedef struct tag_MPCCryptoContext MPCCryptoContext;
 typedef struct tag_MPCCryptoMessage MPCCryptoMessage;
 
-enum mpc_crypto_key_e : unsigned
+enum mpc_crypto_key_e
 { 
   mpc_none           = 0,
 
@@ -63,7 +63,7 @@ enum mpc_crypto_err_e
 typedef struct tag_mpc_crypto_share_info_t
 {
   uint64_t         uid;
-  mpc_crypto_key_e type;
+  uint64_t         type;
 } mpc_crypto_share_info_t;
 
 typedef struct tag_mpc_crypto_context_info_t
