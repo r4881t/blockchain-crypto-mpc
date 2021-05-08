@@ -8,15 +8,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: compile
-        run: |
-          pwd
-          ls
-          make
+        run: make
 
       - name: make deb pkg
         run: |
-        cp libmpc_crypto.so .github/workflows/deb/mpc/usr/lib
-        cd .github/workflows/deb
-        dpkg-deb --build mpc
+          cp libmpc_crypto.so .github/workflows/deb/mpc/usr/lib
+          cd .github/workflows/deb
+          dpkg-deb --build mpc
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
