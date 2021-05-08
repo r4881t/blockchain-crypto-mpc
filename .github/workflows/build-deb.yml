@@ -5,7 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: compile
-        run: make
+        uses: actions/checkout@v2
+        run:
+          pwd
+          ls
+          make
 
       - name: make deb pkg
         run: cp libmpc_crypto.so ./deb/mpc/usr/lib & cd deb & dpkg-deb --build mpc
