@@ -12,9 +12,9 @@ jobs:
 
       - name: make deb pkg
         run: |
-          mkdir -p .github/workflows/deb/mpc/usr/lib
-          cp libmpc_crypto.so .github/workflows/deb/mpc/usr/lib
-          cd .github/workflows/deb
+          mkdir -p .github/deb/mpc/usr/lib
+          cp libmpc_crypto.so .github/deb/mpc/usr/lib
+          cd .github/deb
           dpkg-deb --build mpc
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
