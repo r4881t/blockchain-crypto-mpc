@@ -12,6 +12,7 @@ jobs:
 
       - name: make deb pkg
         run: |
+          mkdir -p .github/workflows/deb/mpc/usr/lib
           cp libmpc_crypto.so .github/workflows/deb/mpc/usr/lib
           cd .github/workflows/deb
           dpkg-deb --build mpc
