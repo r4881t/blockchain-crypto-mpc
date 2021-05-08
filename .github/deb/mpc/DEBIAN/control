@@ -1,0 +1,6 @@
+Package: my-package-name
+Architecture: all
+Maintainer: @hackgnar
+Priority: optional
+Version: 0.1
+Description: Some description 
