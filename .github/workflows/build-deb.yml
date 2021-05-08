@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: compile
-      - run: make
+        run: make
 
       - name: make deb pkg
-      - run: cp libmpc_crypto.so ./deb/mpc/usr/lib & cd deb & dpkg-deb --build mpc
+        run: cp libmpc_crypto.so ./deb/mpc/usr/lib & cd deb & dpkg-deb --build mpc
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
