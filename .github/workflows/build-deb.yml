@@ -16,12 +16,12 @@ jobs:
           cp libmpc_crypto.so .github/deb/mpc/usr/lib
           cd .github/deb
           dpkg-deb --build mpc
-          ls
 
       - name: Create a Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
+          title: "Development Build"
+          automatic_release_tag: "latest"
+          prerelease: true
           files: .github/deb/mpc.deb
-        id: "automatic_releases"
