@@ -1,6 +1,6 @@
-Package: my-package-name
+Package: blockchain-crypto-mpc
 Architecture: all
-Maintainer: @hackgnar
+Maintainer: unboundsecurity
 Priority: optional
-Version: 0.1
-Description: Some description 
+Version: 1.0.2
+Description: Protecting cryptographic signing keys and seed secrets with Multi-Party Computation.
