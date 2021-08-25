@@ -24,7 +24,7 @@
 COMMON_INCLUDES = \
 	-I include
 
-COMMON_CPPFLAGS = \
+COMMON_CPPFLAGS += \
 	-O2 \
 	-fPIC \
 	-fno-strict-aliasing \

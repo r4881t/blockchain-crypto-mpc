@@ -9,6 +9,8 @@ ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
 
 RUN apk add --no-cache make gcc g++ openssl libressl-dev openjdk8="$JAVA_ALPINE_VERSION"
 
+ENV COMMON_CPPFLAGS=-DOPENSSL_IS_BORINGSSL
+
 RUN make
 
 ENV LD_LIBRARY_PATH=.
