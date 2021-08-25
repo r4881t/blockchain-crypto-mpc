@@ -1,0 +1,55 @@
+name: build-alpine
+
+on:
+  push:
+    branches: [ build-alpine ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    container: 
+        image: alpine:3.13
+
+    steps:
+    - name: pull source
+      uses: actions/checkout@v2
+      
+    - name: setup java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '8'
+        
+    - name: install requirements
+      run: apk add --no-cache make gcc g++ openssl libressl-dev zip
+      
+    - name: make
+      run: make
+    
+    - name: export lib path
+      run: export LD_LIBRARY_PATH=.
+
+    - name: test
+      run: ./mpc_crypto_bench ecdsa-gen 10
+      
+    - name: Get release
+      id: get_release
+      uses: bruceadams/get-release@v1.2.2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        
+    - name: Archive 
+      run: zip -j libmpc_crypto.zip libmpc_crypto.so
+      
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.get_release.outputs.upload_url }} 
+        asset_path: ./libmpc_crypto.zip
+        asset_name: libmpc_crypto.zip
+        asset_content_type: application/zip
+          
