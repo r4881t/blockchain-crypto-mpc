@@ -1,0 +1,27 @@
+name: Build deb
+on: [push]
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: compile
+        run: make
+
+      - name: make deb pkg
+        run: |
+          mkdir -p .github/deb/mpc/usr/lib
+          cp libmpc_crypto.so .github/deb/mpc/usr/lib
+          cd .github/deb
+          dpkg-deb --build mpc
+
+      - name: Create a Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          title: "Development Build"
+          automatic_release_tag: "latest"
+          prerelease: true
+          files: .github/deb/mpc.deb

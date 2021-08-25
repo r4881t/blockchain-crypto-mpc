@@ -1,0 +1,6 @@
+Package: blockchain-crypto-mpc
+Architecture: all
+Maintainer: unboundsecurity
+Priority: optional
+Version: 1.0.2
+Description: Protecting cryptographic signing keys and seed secrets with Multi-Party Computation.
