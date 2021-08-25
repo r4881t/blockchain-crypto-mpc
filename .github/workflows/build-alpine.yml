@@ -26,7 +26,7 @@ jobs:
 
     - name: make
       run: | 
-        export COMMON_CPPFLAGS=-DOPENSSL_IS_BORINGSSL -D__ALPINE__
+        export COMMON_CPPFLAGS=-DOPENSSL_IS_BORINGSSL\ -D__ALPINE__
         make
 
     - name: test
@@ -42,4 +42,3 @@ jobs:
       with:
         name: libmpc_crypto
         path: ./libmpc_crypto.zip
-          
