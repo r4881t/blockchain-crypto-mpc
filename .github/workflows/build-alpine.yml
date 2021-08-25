@@ -2,7 +2,7 @@ name: build-alpine
 
 on:
   push:
-    branches: [ build-alpine ]
+    branches: [ alpine-build ]
 
 jobs:
   build:
