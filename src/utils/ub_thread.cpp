@@ -163,7 +163,7 @@ mutex_t::mutex_t()
 #ifdef __APPLE__
   pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
 #else
-  pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
+  pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
 #endif
   pthread_mutex_init(&os, &attr);
   pthread_mutexattr_destroy(&attr);
