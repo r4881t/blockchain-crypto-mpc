@@ -25,13 +25,10 @@ jobs:
       run: apk add --no-cache make gcc g++ openssl libressl-dev zip
       
     - name: make
-      run: make
-    
-    - name: export lib path
-      run: export LD_LIBRARY_PATH=.
-
-    - name: test
-      run: ./mpc_crypto_bench ecdsa-gen 10
+      run: | 
+        make 
+        export LD_LIBRARY_PATH=.
+        ./mpc_crypto_bench ecdsa-gen 2 
       
     - name: Get release
       id: get_release
