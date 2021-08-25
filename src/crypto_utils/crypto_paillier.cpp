@@ -24,6 +24,8 @@
 #include "precompiled.h"
 #include "crypto.h"
 
+#define OPENSSL_IS_BORINGSSL
+
 #if (OPENSSL_VERSION_NUMBER >= 0x10100000) && !defined(OPENSSL_IS_BORINGSSL)
 struct rsa_meth_st
 {
