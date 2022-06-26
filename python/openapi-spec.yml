@@ -22,7 +22,7 @@ paths:
         200:
           description: Successful response
           content:
-            application/text:
+            text/html:
               schema:
                 type: string
                 description: "pong"
@@ -33,11 +33,11 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
-                other_id:
+                other:
                   type: integer
                   description: ID of the other party. Must be unique to each party
                   example: 12
@@ -49,14 +49,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  other_id:
-                    type: integer
-                    description: System generated ID of the other person. Since one persion can have multiple engagements, this is the ID that should be used while communicating with this API for `POST /sign` or `POST /refresh` calls.
-                    example: 121656230177000
-                  bitpack_id:
-                    type: integer
-                    description: System generated ID of the bitpack party. Since bitpack will engage in multiple acts, this is the ID that should be used while talking to this API and in context of the `other_id`.
-                    example: 1216562301770000
                   address:
                     type: string
                     description: Ethereum Address generated
@@ -64,18 +56,18 @@ paths:
                   bitpack_share:
                     type: string
                     description: Bitpack share of the private key
-                    example: "hsy"
+                    example: "d68c71663a9a4dcc01002006a2d63955d196626d787beb981c3e0c46e277b831effcf445148345f6edf9aac8c02bf0fe9a2bcd9c1217ff47504adee78c6c89d652882e49524d874e7901e443bca730c19d4e0c07ec6e0d44dbdfbd"
                   other_share:
                     type: string
                     description: "Other's share of the private key"
-                    example: "dff"
+                    example: "d68c71663a9a4dcc0100200fa07a09d91007f7662e9ea7cf1a7f78da149f105f5448e8af192089cd2138d5c8c02bf0fe9a2bcd9c1217ff47504adee78c6c89d652882e49524d874e7901e443bca730c19d4e0c07ec6e0d44dbdfbd"
   /sign:
     post:
       description: Sign a message
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: "#/components/schemas/PartyShares"
 
@@ -112,19 +104,11 @@ components:
     PartyShares:
       type: object
       properties:
-          other_id:
-            type: integer
-            description: System generated ID of the other person. Generated in `POST /gen` call.
-            example: 121656230177000
-          bitpack_id:
-            type: integer
-            description: System generated ID of the bitpack party. Generated in `POST /gen` call.
-            example: 1216562301770000
           bitpack_share:
             type: string
             description: Bitpack share of the private key
-            example: "hsy"
+            example: "d68c71663a9a4dcc0100200fa07a09d91007f7662e9ea7cf1a7f78da149f105f5448e8af192089cd2138d5c8c02bf0fe9a2bcd9c1217ff47504adee78c6c89d652882e49524d874e7901e443bca730c19d4e0c07ec6e0d44dbdfbd"
           other_share:
             type: string
             description: "Other's share of the private key"
-            example: "dff"
+            example: "d68c71663a9a4dcc01002006a2d63955d196626d787beb981c3e0c46e277b831effcf445148345f6edf9aac8c02bf0fe9a2bcd9c1217ff47504adee78c6c89d652882e49524d874e7901e443bca730c19d4e0c07ec6e0d44dbdfbd"
