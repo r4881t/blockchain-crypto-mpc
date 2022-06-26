@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Bitpack.me MPC API
+  description: APIs for Bitpack.me MPC
+  termsOfService: https://developer.bitpack.me/terms/
+  contact:
+    name: API Support
+    url: https://developer.bitpack.me/support
+    email: hello+developer@bitpack.me
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:8080/
+  description: Development server
+paths:
+  /ping:
+    get:
+      description: Pong
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/text:
+              schema:
+                type: string
+                description: "pong"
+                example: pong
+  /gen:
+    post:
+      description: Generates the key shares for Bitpack and the other party
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                other_id:
+                  type: integer
+                  description: ID of the other party. Must be unique to each party
+                  example: 12
+      responses:
+        200:
+          description: Successfully added to Bitpack.me Rabbit Hole.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  other_id:
+                    type: integer
+                    description: System generated ID of the other person. Since one persion can have multiple engagements, this is the ID that should be used while communicating with this API for `POST /sign` or `POST /refresh` calls.
+                    example: 121656230177000
+                  bitpack_id:
+                    type: integer
+                    description: System generated ID of the bitpack party. Since bitpack will engage in multiple acts, this is the ID that should be used while talking to this API and in context of the `other_id`.
+                    example: 1216562301770000
+                  address:
+                    type: string
+                    description: Ethereum Address generated
+                    example: "0x0000SOMEADDRESS000000000000000000"
+                  bitpack_share:
+                    type: string
+                    description: Bitpack share of the private key
+                    example: "hsy"
+                  other_share:
+                    type: string
+                    description: "Other's share of the private key"
+                    example: "dff"
+  /sign:
+    post:
+      description: Sign a message
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/PartyShares"
+
+      responses:
+        200:
+          description: Successfully added to Bitpack.me Rabbit Hole.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    description: Signed Message
+                    example: "skdi"
+  /refresh:
+    post:
+      description: Refresh Key Shares
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/PartyShares"
+      responses:
+        200:
+          description: Successfully added to Bitpack.me Rabbit Hole.
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/PartyShares"
+components:
+  schemas:
+    PartyShares:
+      type: object
+      properties:
+          other_id:
+            type: integer
+            description: System generated ID of the other person. Generated in `POST /gen` call.
+            example: 121656230177000
+          bitpack_id:
+            type: integer
+            description: System generated ID of the bitpack party. Generated in `POST /gen` call.
+            example: 1216562301770000
+          bitpack_share:
+            type: string
+            description: Bitpack share of the private key
+            example: "hsy"
+          other_share:
+            type: string
+            description: "Other's share of the private key"
+            example: "dff"

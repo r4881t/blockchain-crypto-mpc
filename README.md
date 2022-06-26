@@ -1,17 +1,24 @@
 # IMPORTANT NOTE
- 
+
 **As of September 1, 2021, this repository will be converted to read only and support will end.**
- 
+
 Therefore, starting on September 1, 2021, the following changes will occur:
 1. Unbound will stop maintenance for this repo.
 1. Unbound will not release any future versions of this repo.
 1. Unbound will not provide any security updates or hotfixes (should an issue arise).
 1. Unbound will stop support for this repo.
- 
+
 This library was originally created to enable users to experiment with MPC functionality using a subset of the functionality provided in Unbound products.
- 
+
 Users are encouraged to explore the new Unbound CORE offerings found in the [Unbound Security website](https://www.unboundsecurity.com/).
- 
+
+
+# DOCKER
+
+Build (x86_64) - `docker build .t mpc:01`
+Build (Non x86_64) - `docker buildx  build --platform linux/amd64 . -t mpc:01  --load`
+Run - `docker run -p 8080:8080 mpc:01`
+
 
 # 1. Introduction to *blockchain-crypto-mpc*
 
@@ -39,7 +46,7 @@ what it allows you to achieve, sample use cases, and how to use the
 library (high level description).
 
 
-# 2. Who Should Use it? 
+# 2. Who Should Use it?
 
 **Blockchain Crypto MPC provides 100% of the cryptography needed for
 strongly securing crypto asset and blockchain wallets -- while being as
@@ -119,7 +126,7 @@ on two or more separate machines to provide strong security.
 app. In this section we describe typical use cases that are relevant to
 many applications.
 
-## 4.1 Endpoint/Server Use Case 
+## 4.1 Endpoint/Server Use Case
 
 
 This use case is common for wallet service providers. The user has a
@@ -226,13 +233,13 @@ independent, each is effectively a backup of the same seed.
 
 # 5. Benchmarking and Performance
 
-This repository includes a two different tools for benchmarking the **blockchain-crypto-mpc** library. 
+This repository includes a two different tools for benchmarking the **blockchain-crypto-mpc** library.
 
 1. MPC Crypto Bench - a tool written C++. See [mpc_crypto_bench](https://github.com/unboundsecurity/blockchain-crypto-mpc/blob/master/bench/README.md) in the [bench](./bench) folder for more information.
 2. MPC Crypto Python script. See [mpc_crypto](https://github.com/unboundsecurity/blockchain-crypto-mpc/blob/master/python/README.md) in the [Python](./python) folder for more information.
 
 MPC Crypto Bench tests the raw protocols, with no networking involved, while the MPC Crypto Python script is uses a client and server with actual networking.
- 
+
 Using the Python script, each command was run for 20 iterations and resulted in the following performance numbers:
 
 | Algorithm | Command  | Time (seconds) |
@@ -334,13 +341,13 @@ A detailed flow is described in the following procedure:
 1. Peer B calls the **step** function with the message it received from peer A as **input message**.
 1. Peer B sends the **output message** back to peer A.
 1. Each peer alternates calling the **step** function with the **input message** from the other peer and then sending the **output message** to the other peer.
-1. This ping-pong process continues until both peers are finished, which is determined by output flags from the **step** function. 
+1. This ping-pong process continues until both peers are finished, which is determined by output flags from the **step** function.
 	- The *mpc_protocol_finished* flag denotes that it was the last step on this peer.
 	- If it also includes the *mpc_share_changed* flag then the local key share  changed, such as with a *refresh* action. The key share needs to retrieved from the context using the **getShare** function and stored for future use.
 	- If the output message from the last step is not empty it must be sent to the other peer.
 	- One or both peers may need to call the **getResult** function based on the type of operation. For example, a *sign* action only has a result for one peer, but a *refresh* action has a new key share for both peers.
 
-	
+
 Throughout the entire process the same context should be used. If the context needs to be stored, you can use the **serialization** function, and then read it back in using the **deserialization** function.
 
 
@@ -351,9 +358,9 @@ An example of an ECDSA signing action is shown in the following figure.
 
 ![Flow](docs/images/os-flow-example.png)
 
-Each peer starts by calling the **MPCCrypto_initEcdsaSign()** function 
-for initialization. After initialization, each peer calls the 
-**MPCCrypto_step()** function a number of times until the peer is 
-finished with the signing process. The signature, which is the result of 
-the signing process, is received by calling the final function, 
+Each peer starts by calling the **MPCCrypto_initEcdsaSign()** function
+for initialization. After initialization, each peer calls the
+**MPCCrypto_step()** function a number of times until the peer is
+finished with the signing process. The signature, which is the result of
+the signing process, is received by calling the final function,
 **MPCCrypto_finalEcdsaSign()**, after which the signing process is done.
