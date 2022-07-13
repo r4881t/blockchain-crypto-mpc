@@ -13,7 +13,6 @@ def ping():
 
 @app.route("/gen", methods=['POST'])
 def gen():
-  data = request.get_json(force=True)
   res = gen_shares()
   return jsonify(res)
 

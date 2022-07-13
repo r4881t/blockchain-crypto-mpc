@@ -12,7 +12,15 @@ ENV COMMON_CPPFLAGS=-DOPENSSL_IS_BORINGSSL\ -D__ALPINE__
 
 WORKDIR /build/
 
-COPY . /build/
+# Copy only relevant directories to avoid rebuilding this stage
+# when there's a change in others
+COPY ./src/ /build/src/
+COPY ./java/ /build/java/
+COPY ./include/ /build/include/
+COPY ./bench/ /build/bench/
+COPY ./test/ /build/test/
+COPY ./makefile /build/makefile
+COPY ./MPCCrypto.sln /build/MPCCrypto.sln
 
 RUN make
 

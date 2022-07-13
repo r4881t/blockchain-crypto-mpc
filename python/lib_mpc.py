@@ -45,8 +45,8 @@ def signMessage(
 
   byteData = data.encode()
 
-  other.initSign(byteData, True)
-  btpk.initSign(byteData, True)
+  other.initSign(byteData, False)
+  btpk.initSign(byteData, False)
 
   exec_client_server(other, btpk)
 
