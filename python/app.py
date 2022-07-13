@@ -2,8 +2,10 @@ from crypt import methods
 from flask import Flask, request, jsonify
 from lib_mpc import gen_shares, signMessage, refresh_shares
 import time
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/ping")
 def ping():
