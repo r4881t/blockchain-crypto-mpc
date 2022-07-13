@@ -17,6 +17,8 @@ servers:
 paths:
   /ping:
     get:
+      tags:
+        - "Health"
       description: Pong
       responses:
         200:
@@ -27,8 +29,10 @@ paths:
                 type: string
                 description: "pong"
                 example: pong
-  /gen:
+  /eddsa/gen:
     post:
+      tags:
+        - "EDDSA"
       description: Generates the key shares for Bitpack and the other party
       requestBody:
         required: true
@@ -61,8 +65,55 @@ paths:
                     type: string
                     description: "Other's share of the private key"
                     example: "d68c71663a9a4dcc0100200fa07a09d91007f7662e9ea7cf1a7f78da149f105f5448e8af192089cd2138d5c8c02bf0fe9a2bcd9c1217ff47504adee78c6c89d652882e49524d874e7901e443bca730c19d4e0c07ec6e0d44dbdfbd"
-  /sign:
+  /generic/gen:
     post:
+      tags:
+        - "Generic"
+      description: Generates the Generic key shares for Bitpack and the other party
+      responses:
+        200:
+          description: Successfully added to Bitpack.me Rabbit Hole.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Ethereum Address generated
+                    example: "0x0000SOMEADDRESS000000000000000000"
+                  bitpack_share:
+                    type: string
+                    description: Bitpack share of the private key
+                    example: "d68c71663a9a4dcc01002006a2d63955d196626d787beb981c3e0c46e277b831effcf445148345f6edf9aac8c02bf0fe9a2bcd9c1217ff47504adee78c6c89d652882e49524d874e7901e443bca730c19d4e0c07ec6e0d44dbdfbd"
+                  other_share:
+                    type: string
+                    description: "Other's share of the private key"
+                    example: "d68c71663a9a4dcc0100200fa07a09d91007f7662e9ea7cf1a7f78da149f105f5448e8af192089cd2138d5c8c02bf0fe9a2bcd9c1217ff47504adee78c6c89d652882e49524d874e7901e443bca730c19d4e0c07ec6e0d44dbdfbd"
+  /bip32/derive:
+    post:
+      tags:
+        - "EDDSA"
+        - "BIP32"
+      description: Sign a message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PartyShares"
+
+      responses:
+        200:
+          description: Successfully added to Bitpack.me Rabbit Hole.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PartyShares"
+  /eddsa/sign:
+    post:
+      tags:
+        - "EDDSA"
       description: Sign a message
       requestBody:
         required: true
@@ -83,8 +134,10 @@ paths:
                     type: string
                     description: Signed Message
                     example: "skdi"
-  /refresh:
+  /eddsa/refresh:
     post:
+      tags:
+        - "EDDSA"
       description: Refresh Key Shares
       requestBody:
         required: true

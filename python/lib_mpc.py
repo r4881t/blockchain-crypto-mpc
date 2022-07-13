@@ -40,18 +40,27 @@ def signMessage(
   other_share: str,
   data: str):
 
+  print('Signing message...0')
   other = mpc_crypto.Eddsa(CLIENT, unhexlify(other_share))
   btpk = mpc_crypto.Eddsa(SERVER, unhexlify(bitpack_share))
+
+  print("Signing message...1")
 
   byteData = data.encode()
 
   other.initSign(byteData, False)
+  print("Signing message...2")
   btpk.initSign(byteData, False)
+  print("Signing message...3")
 
   exec_client_server(other, btpk)
+  print("Signing message...4")
 
   signature = other.getSignResult()
+  print("Signing message...5")
+
   other.verify(byteData, signature)
+  print("Signing message...6")
   return signature.hex()
 
 def refresh_shares(
@@ -73,3 +82,38 @@ def refresh_shares(
 
 def test_shares(client, server):
   return True
+
+def bip32_derive(
+  bitpack_share: str,
+  other_share: str):
+
+  other = mpc_crypto.Eddsa(CLIENT, unhexlify(other_share))
+  btpk = mpc_crypto.Eddsa(SERVER, unhexlify(bitpack_share))
+
+  clientObj = mpc_crypto.Bip32(CLIENT)
+  serverObj = mpc_crypto.Bip32(SERVER)
+
+  clientObj.initDerive(other, 0, False)
+  serverObj.initDerive(btpk, 0, False)
+
+  exec_client_server(clientObj, serverObj)
+
+  clientObj.getDeriveResult()
+  serverObj.getDeriveResult()
+
+  return {
+    'bitpack_share': serverObj.exportShare().hex(),
+    'other_share': clientObj.exportShare().hex()
+  }
+
+def gen_shares_generic():
+  clientObj = mpc_crypto.GenericSecret(CLIENT)
+  serverObj = mpc_crypto.GenericSecret(SERVER)
+  clientObj.initGenerate(256)
+  serverObj.initGenerate(256)
+  exec_client_server(clientObj, serverObj)
+
+  return {
+    'bitpack_share': serverObj.exportShare().hex(),
+    'other_share': clientObj.exportShare().hex()
+  }
